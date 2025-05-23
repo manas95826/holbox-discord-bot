@@ -26,7 +26,7 @@ Just ask me about any of these topics!"""
 
 def generate_content(query: str) -> str:
     response = openai.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a helpful community assistant. Provide clear, concise, and friendly responses."},
             {"role": "user", "content": query}
@@ -36,7 +36,7 @@ def generate_content(query: str) -> str:
 
 def general_chat(query: str) -> str:
     response = openai.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a helpful community assistant. Provide clear, concise, and friendly responses."},
             {"role": "user", "content": query}
@@ -117,7 +117,7 @@ def get_chat_summary() -> str:
     
     # Use GPT to summarize the chat history
     response = openai.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a helpful assistant that summarizes chat discussions. Provide a clear and concise summary of the main topics and interactions."},
             {"role": "user", "content": f"Please summarize the following chat history:\n\n{chat_history}"}
