@@ -1,10 +1,12 @@
-import os
 import sys
+from pathlib import Path
 
-# Add the current directory to Python path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Add the src directory to the Python path
+src_path = str(Path(__file__).parent / "src")
+if src_path not in sys.path:
+    sys.path.append(src_path)
 
-from src.bot.bot import CommunityBot
+from bot.bot import CommunityBot
 
 def main():
     bot = CommunityBot()

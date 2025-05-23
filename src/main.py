@@ -1,4 +1,4 @@
-from src.bot.bot import CommunityBot
+from bot.bot import CommunityBot
 
 def main():
     bot = CommunityBot()
