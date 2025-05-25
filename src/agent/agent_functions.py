@@ -1,18 +1,11 @@
-from empire_chain.agent.agent import Agent
-from dotenv import load_dotenv
 import openai
-from supabase import create_client
-import os
 from datetime import datetime, timedelta
-import json
+from src.database.supabase_client import supabase
+from config.config import OPENAI_API_KEY
 
-load_dotenv()
-
-supabase_url = os.getenv("SUPABASE_URL")
-supabase_key = os.getenv("SUPABASE_KEY")
+openai.api_key = OPENAI_API_KEY
 
 def onboard_new_member(name: str, email: str, interests: str) -> str:
-    supabase = create_client(supabase_url, supabase_key)
     supabase.table('members').insert({
         'name': name,
         'email': email,
@@ -63,7 +56,6 @@ def get_community_guidelines() -> str:
 8. Follow Discord's Terms of Service"""
 
 def get_upcoming_events() -> str:
-    supabase = create_client(supabase_url, supabase_key)
     events = supabase.table('events').select('*').gte('date', datetime.now().isoformat()).order('date').limit(5).execute()
     
     if not events.data:
@@ -76,7 +68,6 @@ def get_upcoming_events() -> str:
     return response
 
 def report_issue(issue_type: str, description: str, reporter: str) -> str:
-    supabase = create_client(supabase_url, supabase_key)
     supabase.table('reports').insert({
         'type': issue_type,
         'description': description,
@@ -87,8 +78,6 @@ def report_issue(issue_type: str, description: str, reporter: str) -> str:
     return f"Thank you for your report. Our moderation team has been notified and will address this issue."
 
 def get_community_stats() -> str:
-    supabase = create_client(supabase_url, supabase_key)
-    
     # Get member count
     members = supabase.table('members').select('*').execute()
     member_count = len(members.data)
@@ -118,7 +107,6 @@ def get_resource_links() -> str:
 8. Support Channels: [link]"""
 
 def get_chat_summary() -> str:
-    supabase = create_client(supabase_url, supabase_key)
     discussions = supabase.table('discussions').select('title, content').order('last_activity', desc=True).limit(50).execute()
     
     if not discussions.data:
@@ -136,51 +124,4 @@ def get_chat_summary() -> str:
         ]
     )
     
-    return response.choices[0].message.content
-
-def main():
-    # Create agent
-    agent = Agent()
-    
-    # Register functions
-    functions = [
-        onboard_new_member,
-        get_community_help,
-        generate_content,
-        general_chat,
-        get_community_guidelines,
-        get_upcoming_events,
-        report_issue,
-        get_community_stats,
-        get_resource_links,
-        get_chat_summary
-    ]
-    
-    for func in functions:
-        agent.register_function(func)
-    
-    # Example queries
-    queries = [
-        "Onboard new member with name: Manas Chopra, email: manas@ai.com, interests: AI and Machine Learning",
-        "Get community help",
-        "Generate content about AI and Machine Learning",
-        "What is the weather in Tokyo?",
-        "Show community guidelines",
-        "What are the upcoming events?",
-        "Report an issue: Spam in general channel",
-        "Show community statistics",
-        "Get resource links",
-        "Get chat summary"
-    ]
-    
-    # Process queries
-    for query in queries:
-        try:
-            result = agent.process_query(query)
-            print(f"\nQuery: {query}")
-            print(f"Result: {result['result']}")
-        except Exception as e:
-            print(f"Error processing query '{query}': {str(e)}")
-
-if __name__ == "__main__":
-    main()
+    return response.choices[0].message.content 
