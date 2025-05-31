@@ -2,6 +2,11 @@
 
 > **Not your average Discord bot!** This isn't just another run-of-the-mill bot - it's a revolutionary community management solution powered by Empyre-Chain's cutting-edge agentic orchestration framework. With over 35,000 downloads worldwide, we're redefining what's possible in Discord automation.
 
+## 📽️ Checkout the Demo  
+👉 [Watch on YouTube](https://youtu.be/qqzYs4Z1t6c)  
+Get a firsthand look at how EmpireChain transforms your community!
+
+
 ## 🌟 Why We're Different
 
 While others rely on off-the-shelf solutions, we've built something extraordinary from the ground up. Our custom-built agentic orchestration framework sets us apart, delivering unprecedented intelligence and adaptability in community management.
